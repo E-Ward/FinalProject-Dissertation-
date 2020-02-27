@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 991027350}
   - component: {fileID: 991027349}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Eye 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,6 +416,17 @@ MonoBehaviour:
   isFirstPerson: 1
   Health: 0
   Stamina: 0
+  mouseSensitivity: 300
+  xAxisRotation: 0
+  standingMarker: {fileID: 935604478}
+  crouchMarker: {fileID: 617635807}
+  thirdPersonMarker: {fileID: 2032792220}
+  capCollider: {fileID: 0}
+  colliderHeight: 2
+  colliderRadius: 0.5
+  centerX: 0.00000005960464
+  centerY: 0
+  centerZ: -0.00000008940697
   MouseScript: {fileID: 1770049337}
 --- !u!136 &1132193731
 CapsuleCollider:
@@ -526,7 +537,7 @@ GameObject:
   - component: {fileID: 1198813674}
   - component: {fileID: 1198813673}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -918,11 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6454b89326dad784597bca9f930f867e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 300
   playerBody: {fileID: 1132193734}
-  endmarker: {fileID: 617635807}
-  topMarker: {fileID: 935604478}
-  thirdPersonMarker: {fileID: 2032792220}
   PlayerControllerScript: {fileID: 1132193730}
 --- !u!1 &1825542357
 GameObject:

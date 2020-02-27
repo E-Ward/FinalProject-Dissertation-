@@ -39,6 +39,24 @@ public class Modular_3D_Player_Controller : MonoBehaviour
     [Tooltip("This value determines how much stamina the player has")]
     public float Stamina;
 
+    [Header("Camera Variables")]
+    [Tooltip("These are the camera variables")]
+    public float mouseSensitivity;
+    public float xAxisRotation;
+
+    [Header("Camera Positons")]
+    public Transform standingMarker = null;
+    public Transform crouchMarker = null;
+    public Transform thirdPersonMarker = null;
+
+    [Header("Capsule Collider Variables")]
+    public CapsuleCollider capCollider;
+    public float colliderHeight;
+    public float colliderRadius;
+    public float centerX;
+    public float centerY;
+    public float centerZ;
+
     [Header("Scripts")]
     public mouseLook MouseScript;
 
@@ -57,6 +75,12 @@ public class Modular_3D_Player_Controller : MonoBehaviour
         isCrouching = false;
 
         rb = GetComponent<Rigidbody>();
+
+        //This sets the capCollider to the Capsule collider on the current gameobject
+        capCollider = gameObject.GetComponent<CapsuleCollider>();
+        capCollider.height = colliderHeight;
+        capCollider.radius = colliderRadius;
+        capCollider.center = new Vector3(centerX,centerY,centerZ);
     }
 
     //Vector3 velocity;
