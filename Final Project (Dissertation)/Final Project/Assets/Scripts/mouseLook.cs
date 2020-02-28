@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class mouseLook : MonoBehaviour
 {
-    //public float mouseSensitivity = 300f;
-
     public Transform playerBody;
 
-    //float xRotation = 0f;
-
-    //[Header("Camera Positons")]
-    //public Transform endmarker = null;
-    //public Transform topMarker = null;
-    //public Transform thirdPersonMarker = null;
+    float xAxisRotation;
 
     [Header("Scripts")]
     public Modular_3D_Player_Controller PlayerControllerScript;
@@ -21,7 +14,9 @@ public class mouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Sets the starting camera position
         transform.position = PlayerControllerScript.standingMarker.position;
+
         // Locks the cursor to the middle of the screen
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -32,10 +27,10 @@ public class mouseLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * PlayerControllerScript.mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * PlayerControllerScript.mouseSensitivity * Time.deltaTime;
 
-        PlayerControllerScript.xAxisRotation -= mouseY;
-        PlayerControllerScript.xAxisRotation = Mathf.Clamp(PlayerControllerScript.xAxisRotation, -90f, 90f);
+        xAxisRotation -= mouseY;
+        xAxisRotation = Mathf.Clamp(xAxisRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(PlayerControllerScript.xAxisRotation, 0f, 0f);
+        transform.localRotation = Quaternion.Euler(xAxisRotation, 0f, 0f);
 
         playerBody.Rotate(Vector3.up * mouseX);
 
@@ -48,10 +43,6 @@ public class mouseLook : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, PlayerControllerScript.standingMarker.position, Time.deltaTime);
         }
 
-        //if (PlayerControllerScript.isFirstPerson == true)
-        //{
-           // transform.position = Vector3.Lerp(transform.position, topMarker.position, Time.deltaTime);
-        //}
         if (PlayerControllerScript.isFirstPerson == false)
         {
             transform.position = Vector3.Lerp(transform.position, PlayerControllerScript.thirdPersonMarker.position, Time.deltaTime);

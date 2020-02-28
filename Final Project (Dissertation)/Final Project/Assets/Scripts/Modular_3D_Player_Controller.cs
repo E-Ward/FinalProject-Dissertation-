@@ -4,31 +4,56 @@ using UnityEngine;
 
 public class Modular_3D_Player_Controller : MonoBehaviour
 {
+    //
+    //
+    // This is the character controller i wrote for my third year final project
+    // It is designed to be friendly to non programmers
+    //
+    //
     
+    /*
+    [Header("Player controller")]
+    public float speeeed;
+    [SerializeField]
+    #if UNITY_EDITOR
+    [Help("This is the character controller I wrote for my third year final project.\nIt is designed to be friendly to non programmers.\nHover over any of the attributes to get more information about them\n", UnityEditor.MessageType.Info)]
+    #endif
+
+    [Space(10)] // 10 pixels of spacing here.
+    */
+
     [Header("Movement Keys")]
-    [Tooltip("Here you can select which keys you would like to use for movement.")] //This text will appear when you hover over the header 
+    [Tooltip("This is the key used to make the character move forward")]
     public KeyCode forward;
+    [Tooltip("This is the key used to make the character move backward")]
     public KeyCode backward;
+    [Tooltip("This is the key used to make the character move left")]
     public KeyCode left;
+    [Tooltip("This is the key used to make the character move right")]
     public KeyCode right;
+    [Tooltip("This is the key used to make the character jump")]
     public KeyCode jump;
+    [Tooltip("This is the key used to make the character sprint")]
     public KeyCode sprint;
+    [Tooltip("This is the key used to make the character crouch")]
     public KeyCode crouch;
+    [Tooltip("This is the key used to switch camera perspectives")]
     public KeyCode cameraChange;
 
     [Header("Movement Variables")]
     [Tooltip("This value determines how fast the character will walk")]
     public float walkingSpeed;
     float currentSpeed;
-    [Tooltip("This value determines how fast the character will walk when running")]
+    [Tooltip("This value determines how fast the character will move when running")]
     public float sprintSpeed;
-    [Tooltip("This value determines how fast the character will walk when crouched")]
+    [Tooltip("This value determines how fast the character will move when crouched")]
     public float crouchSpeed;
     public bool isCrouching;
     [Tooltip("This value is how much gravity is applied to the player determining how fast they will fall")]
     public float gravity;
     [Tooltip("This value determines how high the character will jump")]
     public float jumpForce;
+    [Tooltip("This is a true or false to see if the character is touching the ground")]
     public bool isGrounded;
     float distToGround;
     public bool isFirstPerson;
@@ -39,10 +64,14 @@ public class Modular_3D_Player_Controller : MonoBehaviour
     [Tooltip("This value determines how much stamina the player has")]
     public float Stamina;
 
+    [Header("Damage")]
+    public int fireDamage;
+    public int explosionDamage;
+
+
     [Header("Camera Variables")]
-    [Tooltip("These are the camera variables")]
+    [Tooltip("Changing this value will change how sensetive the mouse is")]
     public float mouseSensitivity;
-    public float xAxisRotation;
 
     [Header("Camera Positons")]
     public Transform standingMarker = null;
@@ -51,8 +80,11 @@ public class Modular_3D_Player_Controller : MonoBehaviour
 
     [Header("Capsule Collider Variables")]
     public CapsuleCollider capCollider;
+    [Tooltip("This sets the height of the collider attached to the player")]
     public float colliderHeight;
+    [Tooltip("This sets the radius of the collider attached to the player")]
     public float colliderRadius;
+    [Tooltip("Change this value to change the position of the collider")]
     public float centerX;
     public float centerY;
     public float centerZ;

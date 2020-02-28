@@ -63,7 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_InspectorExtensions\HelpAttribute.cs" />
     <Compile Include="Assets\Scripts\Modular_3D_Player_Controller.cs" />
+    <Compile Include="Assets\Scripts\Molotov_Damage_Over_Time.cs" />
     <Compile Include="Assets\Scripts\mouseLook.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Reference Include="Unity.Timeline.Editor">
