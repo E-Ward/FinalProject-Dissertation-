@@ -1,26 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Modular_3D_Player_Controller : MonoBehaviour
 {
     //
     //
-    // This is the character controller i wrote for my third year final project
+    // This is the character controller I wrote for my third year final project
     // It is designed to be friendly to non programmers
     //
     //
-    
-    /*
-    [Header("Player controller")]
-    public float speeeed;
-    [SerializeField]
-    #if UNITY_EDITOR
-    [Help("This is the character controller I wrote for my third year final project.\nIt is designed to be friendly to non programmers.\nHover over any of the attributes to get more information about them\n", UnityEditor.MessageType.Info)]
-    #endif
-
-    [Space(10)] // 10 pixels of spacing here.
-    */
 
     [Header("Movement Keys")]
     [Tooltip("This is the key used to make the character move forward")]
@@ -40,6 +30,10 @@ public class Modular_3D_Player_Controller : MonoBehaviour
     [Tooltip("This is the key used to switch camera perspectives")]
     public KeyCode cameraChange;
 
+    [TextArea]
+    public string ControllerInformation = "";
+
+
     [Header("Movement Variables")]
     [Tooltip("This value determines how fast the character will walk")]
     public float walkingSpeed;
@@ -49,6 +43,7 @@ public class Modular_3D_Player_Controller : MonoBehaviour
     [Tooltip("This value determines how fast the character will move when crouched")]
     public float crouchSpeed;
     public bool isCrouching;
+    public bool isRunning;
     [Tooltip("This value is how much gravity is applied to the player determining how fast they will fall")]
     public float gravity;
     [Tooltip("This value determines how high the character will jump")]
@@ -63,6 +58,17 @@ public class Modular_3D_Player_Controller : MonoBehaviour
     public int Health;
     [Tooltip("This value determines how much stamina the player has")]
     public float Stamina;
+    public float staminaRechargeRate;
+    [Tooltip("This is where you can drag the Health UI object from the canvas")]
+    public Text HealthUIText;
+    [Tooltip("This is where you can drag the Stamina UI object from the canvas")]
+    public Text StaminaUIText;
+    [Tooltip("How much stamin is taken when the character jumps")]
+    public float staminaDrainFromJumping;
+    [Tooltip("How much stamina is taken when the characher is running")]
+    public float staminDrainFromRunning;
+
+    float currentStamina;
 
     [Header("Damage")]
     public int fireDamage;
@@ -97,6 +103,7 @@ public class Modular_3D_Player_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         // Sets the default camera position to be first person
         isFirstPerson = true;
         // Sets the current speed of the player = to the walking speed set by the user
@@ -106,6 +113,8 @@ public class Modular_3D_Player_Controller : MonoBehaviour
         // Sets the is crouching to false so the player starts standing
         isCrouching = false;
 
+        isRunning = false;
+
         rb = GetComponent<Rigidbody>();
 
         //This sets the capCollider to the Capsule collider on the current gameobject
@@ -113,12 +122,22 @@ public class Modular_3D_Player_Controller : MonoBehaviour
         capCollider.height = colliderHeight;
         capCollider.radius = colliderRadius;
         capCollider.center = new Vector3(centerX,centerY,centerZ);
+
+        HealthUIText.text = HealthUIText.text = "Health: " + Health.ToString();
+        StaminaUIText.text = StaminaUIText.text = "Stamina: " + Stamina.ToString("F0");
+
+        currentStamina = Stamina;
     }
 
     //Vector3 velocity;
     // Update is called once per frame
     void Update()
     {
+        HealthUIText.text = HealthUIText.text = "Health: " + Health.ToString();
+        StaminaUIText.text = StaminaUIText.text = "Stamina: " + currentStamina.ToString("F0");
+
+        
+
         if (Input.GetKey(forward))
         {
             transform.position += transform.forward * currentSpeed * Time.deltaTime;
@@ -128,31 +147,36 @@ public class Modular_3D_Player_Controller : MonoBehaviour
         {
             transform.position += -transform.forward * currentSpeed * Time.deltaTime;
         }
-            
+
         if (Input.GetKey(left))
         {
             transform.position += -transform.right * currentSpeed * Time.deltaTime;
         }
-            
+
         if (Input.GetKey(right))
         {
             transform.position += transform.right * currentSpeed * Time.deltaTime;
+            
         }
-   
-        if (Input.GetKeyDown(jump) && isGrounded == true)
+
+        if (Input.GetKeyDown(jump) && isGrounded == true && currentStamina > 0)
         {
 
             rb.velocity = Vector3.up * jumpForce * Time.deltaTime;
+            currentStamina -= staminaDrainFromJumping;
             //transform.position += Vector3.up * jumpForce * Time.deltaTime;
         }
         
         if (Input.GetKeyDown(sprint))
         {
             currentSpeed = sprintSpeed;
+            isRunning = true; 
+           
         }
-        else if (Input.GetKeyUp(sprint) )
+        else if (Input.GetKeyUp(sprint)  && currentStamina > 0)
         {
             currentSpeed = walkingSpeed;
+            isRunning = false;  
         }
 
         if (Input.GetKeyDown(crouch))
@@ -181,6 +205,17 @@ public class Modular_3D_Player_Controller : MonoBehaviour
         {
             isFirstPerson = true;
         }
+
+        if (currentStamina <= Stamina && isRunning == false)
+        {
+            currentStamina += staminaRechargeRate * Time.deltaTime;
+        }
+
+        if ( isRunning == true && currentStamina > 0)
+        {
+            currentStamina -= staminDrainFromRunning * Time.deltaTime;
+        }
+
     }
     void FixedUpdate()
     {
